@@ -10,9 +10,29 @@ import EudiWalletKit
 
 @main
 struct Identity_PocketApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
+  @State private var walletSession = WalletSession()
+  
+  var body: some Scene {
+    WindowGroup {
+      Group {
+        if walletSession.wallet != nil {
+          ContentView()
+        } else if let message = walletSession.errorMessage {
+          VStack(spacing: 16) {
+            Text(message)
+            
+            Button("Retry") {
+              walletSession.initialize()
+            }
+          }
+          .padding()
+        } else {
+          ProgressView("Preparing wallet…")
         }
+      }
+      .task {
+        walletSession.initialize()
+      }
     }
+  }
 }
