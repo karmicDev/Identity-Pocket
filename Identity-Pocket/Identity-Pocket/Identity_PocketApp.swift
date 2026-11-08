@@ -17,6 +17,7 @@ struct Identity_PocketApp: App {
       Group {
         if walletSession.wallet != nil {
           ContentView()
+            .environment(walletSession)
         } else if let message = walletSession.errorMessage {
           VStack(spacing: 16) {
             Text(message)

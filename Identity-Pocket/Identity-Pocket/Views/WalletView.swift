@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WalletView: View {
+  @Environment(WalletSession.self) private var walletSession
   @State private var credential: DemoCredential?
 
   var body: some View {
@@ -51,9 +52,13 @@ struct WalletView: View {
         }
       }
     }
+    .task {
+        await walletSession.loadDocuments()
+    }
   }
 }
 
 #Preview {
   WalletView()
+    .environment(WalletSession())
 }
