@@ -8,17 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+  var body: some View {
+    TabView {
+      Tab(WalletTab.wallet.title, systemImage: WalletTab.wallet.systemImage) {
+        WalletView()
+      }
+      Tab(WalletTab.activity.title, systemImage: WalletTab.activity.systemImage) {
+        ActivityView()
+      }
+      Tab(WalletTab.settings.title, systemImage: WalletTab.settings.systemImage) {
+        SettingsView()
+      }
     }
+  }
 }
 
 #Preview {
-    ContentView()
+  ContentView()
 }
