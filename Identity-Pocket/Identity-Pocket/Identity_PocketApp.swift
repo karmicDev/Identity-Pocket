@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import EudiWalletKit
 
 @main
 struct Identity_PocketApp: App {

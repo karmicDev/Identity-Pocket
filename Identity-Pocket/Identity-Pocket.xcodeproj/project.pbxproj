@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CCF22ECA30A0BA7A00FB4389 /* EudiWalletKit in Frameworks */ = {isa = PBXBuildFile; productRef = CCF22EC930A0BA7A00FB4389 /* EudiWalletKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		CCCBF1C230A08D8C00F0A38D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCF22ECA30A0BA7A00FB4389 /* EudiWalletKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 				CCCBF1B630A08D8900F0A38D /* Identity-Pocket */,
 				CCCBF1C430A08D8C00F0A38D /* Identity-PocketTests */,
 				CCCBF1CE30A08D8D00F0A38D /* Identity-PocketUITests */,
+				CCF22EC830A0BA6800FB4389 /* Frameworks */,
 				CCCBF1B530A08D8900F0A38D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +96,13 @@
 				CCCBF1CB30A08D8D00F0A38D /* Identity-PocketUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CCF22EC830A0BA6800FB4389 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +125,7 @@
 			);
 			name = "Identity-Pocket";
 			packageProductDependencies = (
+				CCF22EC930A0BA7A00FB4389 /* EudiWalletKit */,
 			);
 			productName = "Identity-Pocket";
 			productReference = CCCBF1B430A08D8900F0A38D /* Identity-Pocket.app */;
@@ -195,6 +209,9 @@
 			);
 			mainGroup = CCCBF1AB30A08D8900F0A38D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CCF22EC730A0B92500FB4389 /* XCRemoteSwiftPackageReference "eudi-lib-ios-wallet-kit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CCCBF1B530A08D8900F0A38D /* Products */;
 			projectDirPath = "";
@@ -617,6 +634,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CCF22EC730A0B92500FB4389 /* XCRemoteSwiftPackageReference "eudi-lib-ios-wallet-kit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/eu-digital-identity-wallet/eudi-lib-ios-wallet-kit.git";
+			requirement = {
+				kind = exactVersion;
+				version = 0.58.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CCF22EC930A0BA7A00FB4389 /* EudiWalletKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCF22EC730A0B92500FB4389 /* XCRemoteSwiftPackageReference "eudi-lib-ios-wallet-kit" */;
+			productName = EudiWalletKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CCCBF1AC30A08D8900F0A38D /* Project object */;
 }
