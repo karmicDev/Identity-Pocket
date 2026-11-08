@@ -17,3 +17,14 @@ struct DemoCredential: Identifiable {
     date >= expiresAt
   }
 }
+
+extension DemoCredential {
+  static var demoCredential: DemoCredential {
+    DemoCredential(
+      id: UUID(),
+      issuerName: "Demo Issuer",
+      ageOver18: true,
+      expiresAt: Date().addingTimeInterval(24 * 60 * 60)
+    )
+  }
+}
