@@ -9,7 +9,7 @@ enum WalletTab: Hashable {
   case wallet
   case activity
   case settings
-  
+
   var title: String {
     switch self {
     case .activity: return "Activity"
@@ -17,7 +17,7 @@ enum WalletTab: Hashable {
     case .wallet: return "Your wallet"
     }
   }
-  
+
   var systemImage: String {
     switch self {
     case .activity: return "clock.arrow.circlepath"

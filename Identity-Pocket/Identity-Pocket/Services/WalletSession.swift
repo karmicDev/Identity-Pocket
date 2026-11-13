@@ -9,25 +9,43 @@ import Foundation
 import EudiWalletKit
 import Observation
 import WalletStorage
+import OSLog
 
 @MainActor
 @Observable
-
 final class WalletSession {
-  private(set) var wallet: EudiWallet?
-  private(set) var errorMessage: String?
+  enum State {
+    case idle
+    case loading
+    case ready(EudiWallet)
+    case failed(message: String)
+  }
+
+  private(set) var state: State = .idle
   private(set) var documents: [WalletStorage.Document] = []
-  private(set) var isLoadingDocuments = false
   private(set) var documentLoadError: String?
-  
+  private(set) var isLoadingDocuments = false
+
+  private let logger = Logger(subsystem: "de.karmic.Identity-Pocket", category: "WalletSession")
+
+  var wallet: EudiWallet? {
+    if case .ready(let wallet) = state { return wallet }
+    return nil
+  }
+
   func initialize() {
-    guard wallet == nil else { return }
+    switch state {
+    case .ready, .loading: return
+    case .idle, .failed: break
+    }
+
+    state = .loading
 
     do {
-      wallet = try WalletFactory.makeWallet()
-      errorMessage = nil
+      state = .ready(try WalletFactory.makeWallet())
     } catch {
-      errorMessage = "Failed to create wallet."
+      logger.error("Wallet setup failed: \(String(describing: error), privacy: .public)")
+      state = .failed(message: "The wallet could not be set up.")
     }
   }
 
@@ -39,12 +57,10 @@ final class WalletSession {
     defer { isLoadingDocuments = false }
 
     do {
-      documents = try await wallet.loadDocuments(
-        status: .issued
-      ) ?? []
+      documents = try await wallet.loadDocuments(status: .issued) ?? []
     } catch {
+      logger.error("Loading documents failed: \(String(describing: error), privacy: .public)")
       documentLoadError = "Could not load stored credentials."
     }
   }
 }
-

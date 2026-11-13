@@ -6,55 +6,46 @@
 //
 
 import SwiftUI
+import WalletStorage
 
 struct WalletView: View {
   @Environment(WalletSession.self) private var walletSession
-  @State private var credential: DemoCredential?
 
   var body: some View {
     NavigationStack {
-      VStack {
-        Text("Demo wallet")
-          .font(.caption)
-          .foregroundStyle(.secondary)
-
-        if let credential = credential {
-          List {
-            NavigationLink {
-              CredentialDetailView(credential: credential)
-            } label: {
-              VStack(alignment: .leading) {
-                Text("Demo age credential")
-
-                Text(credential.issuerName)
-                  .font(.subheadline)
-                  .foregroundStyle(.secondary)
-              }
-            }
+      Group {
+        if let error = walletSession.documentLoadError {
+          ContentUnavailableView {
+            Label("Credentials unavailable", systemImage: "exclamationmark.triangle")
+          } description: {
+            Text(error)
+          } actions: {
+            Button("Retry") { Task { await walletSession.loadDocuments() } }
+          }
+        } else if walletSession.documents.isEmpty {
+          if walletSession.isLoadingDocuments {
+            ProgressView("Loading credentials…")
+          } else {
+            ContentUnavailableView(
+              "No credentials yet",
+              systemImage: "wallet.bifold",
+              description: Text("Credentials you receive from an issuer will appear here.")
+            )
           }
         } else {
-          ContentUnavailableView(
-            "No credentials yet",
-            systemImage: "wallet.bifold",
-            description: Text(
-              "Add a demo credential to get started."
-            )
-          )
+          List(walletSession.documents) { document in
+            VStack(alignment: .leading) {
+              Text(document.displayName ?? document.docType)
+              Text(String(describing: document.docDataFormat))
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            }
+          }
         }
       }
       .navigationTitle("Your wallet")
-      .toolbar {
-        ToolbarItem(placement: .automatic) {
-          Button("Add demo credential") {
-            credential = DemoCredential.demoCredential
-          }
-          .disabled(credential != nil)
-        }
-      }
     }
-    .task {
-        await walletSession.loadDocuments()
-    }
+    .task { await walletSession.loadDocuments() }
   }
 }
 
